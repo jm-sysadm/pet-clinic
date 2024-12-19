@@ -64,7 +64,7 @@ jobs:
               -d "visibility=public")
 
             if [ "$create_response" -ne 201 ]; then
-              echo "¨Proyecto creado exitosamente (HTTP $create_response)."
+              echo "Proyecto creado exitosamente (HTTP $create_response)."
             fi
 
             echo "Estableciendo la rama [feature-jm] [main] como predeterminada..."
@@ -96,7 +96,7 @@ jobs:
             -Dsonar.organization=devsecops-jm \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=$TK_SONARCLOUD \
-            -Dsonar.branch.name=main
+            -Dsonar.branch.name=feature-jm
 
       - name: Perform Branch Analysis
         if: env.project_created == 'false'
