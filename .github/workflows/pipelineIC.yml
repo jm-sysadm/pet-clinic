@@ -121,16 +121,16 @@ jobs:
           REPO_NAME: ${{ github.event.repository.name }}
         run: |
           echo "Validando el estado del Quality Gate..."
-          analysisId=$(curl -s -u "$SONAR_TOKEN:" \
+          analysisId=$(curl -s -u "$TK_SONARCLOUD:" \
             "https://sonarcloud.io/api/ce/component?component=$REPO_NAME" | jq -r '.current.analysisId')
 
-          qualityGateStatus=$(curl -s -u "$SONAR_TOKEN:" \
+          qualityGateStatus=$(curl -s -u "$TK_SONARCLOUD:" \
             "https://sonarcloud.io/api/qualitygates/project_status?analysisId=$analysisId" | jq -r '.projectStatus.status')
 
           if [ "$qualityGateStatus" != "OK" ]; then
             echo "El proyecto no cumple con el Quality Gate: $qualityGateStatus."
             echo "Verificando vulnerabilidades críticas..."
-            vulnerabilities=$(curl -s -u "$SONAR_TOKEN:" \
+            vulnerabilities=$(curl -s -u "$TK_SONARCLOUD:" \
               "https://sonarcloud.io/api/issues/search?componentKeys=$REPO_NAME&types=VULNERABILITY&severities=CRITICAL,BLOCKER" | jq -r '.total')
 
             if [ "$vulnerabilities" -gt 0 ]; then
