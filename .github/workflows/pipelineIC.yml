@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - feature-jm
-      - '**'
+      #- '**'
 
 jobs:
   SAST:
