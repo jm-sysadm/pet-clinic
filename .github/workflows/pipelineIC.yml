@@ -60,14 +60,14 @@ jobs:
               "https://sonarcloud.io/api/projects/create" \
               -d "name=$REPO_NAME" \
               -d "project=$REPO_NAME" \
-              -d "organization=devsecopsusach" \
+              -d "organization=devsecops-jm" \
               -d "visibility=public")
 
             if [ "$create_response" -ne 201 ]; then
               echo "¨Proyecto creado exitosamente (HTTP $create_response)."
             fi
 
-            echo "Estableciendo la rama main como predeterminada..."
+            echo "Estableciendo la rama [feature-jm] [main] como predeterminada..."
             curl -s -f -X POST -u "$TK_SONARCLOUD:" \
               "https://sonarcloud.io/api/project_branches/rename" \
               -d "name=feature-jm" \
@@ -93,7 +93,7 @@ jobs:
           echo "Realizando análisis inicial en la rama main..."
           ./gradlew sonarqube \
             -Dsonar.projectKey=$REPO_NAME \
-            -Dsonar.organization=devsecopsusach \
+            -Dsonar.organization=devsecops-jm \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=$TK_SONARCLOUD \
             -Dsonar.branch.name=main
@@ -109,7 +109,7 @@ jobs:
           echo "Realizando análisis en la rama actual: $BRANCH_NAME..."
           ./gradlew sonarqube \
             -Dsonar.projectKey=$REPO_NAME \
-            -Dsonar.organization=devsecopsusach \
+            -Dsonar.organization=devsecops-jm \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=$TK_SONARCLOUD \
             -Dsonar.branch.name=$BRANCH_NAME
